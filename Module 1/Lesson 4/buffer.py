@@ -1,8 +1,9 @@
 sum=0
 for i in range(1,8):
-    sav=int(input("Day",i,":"))
+    sav=int(input(f"Day {i}: "))
     sum+=sav
 avg=sum/7
+avg=round(avg,2)
 print("Total is:",sum)
 print("Average is",avg)
 note_200=sum//200

@@ -1,4 +1,4 @@
-n=float(input("Enter the number: "))
-i=float(input("Enter the power: "))
-p=n**i
+num=float(input("Enter the number: "))
+n=float(input("Enter the power: "))
+p=num**n
 print(p)

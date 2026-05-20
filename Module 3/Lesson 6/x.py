@@ -12,8 +12,11 @@ while True:
         a=float(input("Enter the 2 numbers and the operation:\nNumber 1:"))
         b=float(input("Number 2:"))
         op=input("Operation:")
-    
-        if "+" in op:
+
+        if len(op)!=1:
+            print("Invalid operation")
+            continue
+        elif "+" in op:
             print(add(a,b))
         elif "-" in op:
             print(sub(a,b))

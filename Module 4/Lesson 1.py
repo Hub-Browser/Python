@@ -12,3 +12,4 @@ for i in list1:
 triples=list1*3
 print(triples)
 
+print(list1[::-1])

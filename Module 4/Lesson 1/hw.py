@@ -28,4 +28,3 @@ def sql():
 
 while True:
     sql()
-        

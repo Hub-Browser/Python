@@ -16,7 +16,7 @@ font=pygame.font.SysFont("Times new roman",font_size)
 
 class sprite(pygame.sprite.Sprite):
       
-    def __init__(self, color, width,height) -> None:
+    def __init__(self, color, width, height) -> None:
             super().__init__()
             self.image=pygame.Surface([width,height])
             self.image.fill(color)

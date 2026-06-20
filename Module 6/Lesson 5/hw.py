@@ -3,7 +3,8 @@ import random
 pygame.init()
 
 screen_width, screen_height=800,600
-x_change, y_change=5, 5
+x_change, y_change=5,5
+score=0
 
 class Sprite(pygame.sprite.Sprite):
     def __init__(self, color, width, height) -> None:
@@ -33,14 +34,20 @@ all_sprites=pygame.sprite.Group()
 enemies_group=pygame.sprite.Group()
 
 player=Sprite(pygame.Color("blue"), 80, 80)
-player.rect.x=random.randint(0, screen_width)
-player.rect.y=random.randint(0, screen_height)
+player.rect.x=random.randint(0, screen_width-40)
+player.rect.y=random.randint(0, screen_height-40)
 all_sprites.add(player)
 
 for i in range(7):
-    enemy=Sprite(pygame.Color("red"), 60, 60)
-    enemy.rect.x=random.randint(0, screen_width)
-    enemy.rect.y=random.randint(0, screen_height)
+    enemy = Sprite(pygame.Color("red"), 60, 60)
+
+    while True:
+        enemy.rect.x = random.randint(0, screen_width - 60)
+        enemy.rect.y = random.randint(0, screen_height - 60)
+
+        if not enemy.rect.colliderect(player.rect):
+            break 
+
     all_sprites.add(enemy)
     enemies_group.add(enemy)
 
@@ -51,16 +58,17 @@ while running:
             running=False
             
     all_sprites.update() 
-    player.move(x_change, y_change)
+    hit_enemies=pygame.sprite.spritecollide(player, enemies_group, False)
     
-    hit_enemies = pygame.sprite.spritecollide(player,enemies_group,False)
-    
-    for hit_enemy in hit_enemies:
-        player.velocity[0] = -player.velocity[0]
-        player.velocity[1] = -player.velocity[1]
+    if hit_enemies:
+        score+=1
+        pygame.display.set_caption(f"Score: {score}")
+        player.velocity[0]=-player.velocity[0]
+        player.velocity[1]=-player.velocity[1]
+        for hit_enemy in hit_enemies:
+            hit_enemy.velocity[0]=-hit_enemy.velocity[0]
+            hit_enemy.velocity[1]=-hit_enemy.velocity[1]
 
-        hit_enemy.velocity[0] = -hit_enemy.velocity[0]
-        hit_enemy.velocity[1] = -hit_enemy.velocity[1]
 
     screen.fill(pygame.Color("white"))
     all_sprites.draw(screen)

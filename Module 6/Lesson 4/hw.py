@@ -20,18 +20,22 @@ class sprite(pygame.sprite.Sprite):
         if self.rect.left <= 0:
             self.rect.left = 0
             self.velocity[0] = -self.velocity[0] 
+            boundary_hit = True
 
         if self.rect.right >= screen_width:
             self.rect.right = screen_width
             self.velocity[0] = -self.velocity[0]
+            boundary_hit = True
 
         if self.rect.top <= 0:
             self.rect.top = 0
             self.velocity[1] = -self.velocity[1] 
+            boundary_hit = True
 
         if self.rect.bottom >= screen_height:
             self.rect.bottom = screen_height
             self.velocity[1] = -self.velocity[1]
+            boundary_hit = True
     
     def move(self,x_change,y_change):
         self.rect.x=max(min(self.rect.x+x_change, screen_width-self.rect.width),0)
@@ -55,17 +59,6 @@ while running:
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             running=False
-    
-        if event.type == pygame.KEYDOWN:
-
-            if event.key == pygame.K_LEFT:
-                x_change = -5
-            if event.key == pygame.K_RIGHT:
-                x_change = 5
-            if event.key == pygame.K_UP:
-                y_change = -5
-            if event.key == pygame.K_DOWN:
-                y_change = 5
     
         if event.type==pygame.KEYUP:
             x_change, y_change=0,0

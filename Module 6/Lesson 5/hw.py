@@ -28,50 +28,39 @@ class Sprite(pygame.sprite.Sprite):
 screen = pygame.display.set_mode((screen_width, screen_height))
 clock = pygame.time.Clock()
 
-# We create two groups: one for rendering everything, one specifically for enemies
 all_sprites = pygame.sprite.Group()
 enemies_group = pygame.sprite.Group()
 
-# Setup Player
 player = Sprite(pygame.Color("blue"), 80, 80)
 player.rect.x, player.rect.y = random.randint(0, screen_width - 80), random.randint(0, screen_height - 80)
 all_sprites.add(player)
 
-# Setup 7 Enemies
 for i in range(7):
     enemy = Sprite(pygame.Color("red"), 60, 60)
     enemy.rect.x = random.randint(0, screen_width - 60)
     enemy.rect.y = random.randint(0, screen_height - 60)
     all_sprites.add(enemy)
-    enemies_group.add(enemy) # Add to enemy-specific group for collision testing
-
+    enemies_group.add(enemy)
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
-    # 1. Update all positions
-    all_sprites.update() # This calls .update() on the player AND all 7 enemies at once!
-    player.move(x_change, y_change) # Move the player with drift values
+            
+    all_sprites.update() 
+    player.move(x_change, y_change)
     
-    # 2. Collision Detection (Player vs ALL enemies in the group)
-    # spritecollide returns a list of all enemies currently touching the player
     hit_enemies = pygame.sprite.spritecollide(player, enemies_group, False)
     
     for hit_enemy in hit_enemies:
-        # Reverse player velocity
         player.velocity[0] = -player.velocity[0]
         player.velocity[1] = -player.velocity[1]
 
-        # Reverse the specific hit enemy's velocity
         hit_enemy.velocity[0] = -hit_enemy.velocity[0]
         hit_enemy.velocity[1] = -hit_enemy.velocity[1]
 
-    # 3. Drawing Phase
     screen.fill(pygame.Color("white"))
     all_sprites.draw(screen)
-    
     pygame.display.flip()
     clock.tick(90)
 

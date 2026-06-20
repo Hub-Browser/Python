@@ -42,10 +42,10 @@ clock=pygame.time.Clock()
 all_sprites=pygame.sprite.Group()
 
 sprite1=sprite(pygame.Color("black"),60,60)
-sprite1.rect.x, sprite1.rect.y=random.randint(0, screen_width-50),random.randint(0,screen_height-50)
+sprite1.rect.x, sprite1.rect.y=random.randint(0, screen_width),random.randint(0,screen_height)
 
 sprite2=sprite(pygame.Color("red"),80,80)
-sprite2.rect.x, sprite2.rect.y=random.randint(0, screen_width-50),random.randint(0,screen_height-50)
+sprite2.rect.x, sprite2.rect.y=random.randint(0, screen_width),random.randint(0,screen_height)
 
 all_sprites.add(sprite1)
 all_sprites.add(sprite2)

@@ -20,22 +20,18 @@ class sprite(pygame.sprite.Sprite):
         if self.rect.left <= 0:
             self.rect.left = 0
             self.velocity[0] = -self.velocity[0] 
-            boundary_hit = True
 
         if self.rect.right >= screen_width:
             self.rect.right = screen_width
             self.velocity[0] = -self.velocity[0]
-            boundary_hit = True
 
         if self.rect.top <= 0:
             self.rect.top = 0
             self.velocity[1] = -self.velocity[1] 
-            boundary_hit = True
 
         if self.rect.bottom >= screen_height:
             self.rect.bottom = screen_height
             self.velocity[1] = -self.velocity[1]
-            boundary_hit = True
     
     def move(self,x_change,y_change):
         self.rect.x=max(min(self.rect.x+x_change, screen_width-self.rect.width),0)
@@ -45,11 +41,11 @@ screen=pygame.display.set_mode((screen_width,screen_height))
 clock=pygame.time.Clock()
 all_sprites=pygame.sprite.Group()
 
-sprite1=sprite(pygame.Color("black"),60,60)
-sprite1.rect.x, sprite1.rect.y=random.randint(0, screen_width-50),random.randint(0,screen_height-50)
+sprite1=sprite(pygame.Color("red"),50,50)
+sprite1.rect.x, sprite1.rect.y=random.randint(0, screen_width),random.randint(0,screen_height)
 
-sprite2=sprite(pygame.Color("red"),80,80)
-sprite2.rect.x, sprite2.rect.y=random.randint(0, screen_width-50),random.randint(0,screen_height-50)
+sprite2=sprite(pygame.Color("blue"),50,50)
+sprite2.rect.x, sprite2.rect.y=random.randint(0, screen_width),random.randint(0,screen_height)
 
 all_sprites.add(sprite1)
 all_sprites.add(sprite2)
@@ -60,13 +56,46 @@ while running:
         if event.type==pygame.QUIT:
             running=False
     
-        if event.type==pygame.KEYUP:
-            x_change, y_change=0,0
 
+
+    sprite1.update()
     sprite2.update()
     screen.fill(pygame.Color("white"))
     sprite1.move(x_change,y_change)
     all_sprites.draw(screen)
+
+    if sprite1.rect.left <= 0:
+        sprite1.rect.left = 0  
+        sprite1.image.fill(pygame.Color("red"))
+
+    if sprite1.rect.right >= screen_width:
+        sprite1.rect.right = screen_width 
+        sprite1.image.fill(pygame.Color("blue"))
+
+    if sprite1.rect.top <= 0:
+        sprite1.rect.top = 0
+        sprite1.image.fill(pygame.Color("green"))
+
+    if sprite1.rect.bottom >= screen_height:
+        sprite1.rect.bottom = screen_height
+        sprite1.image.fill(pygame.Color("purple"))
+
+    if sprite2.rect.left <= 0:
+        sprite2.rect.left = 0  
+        sprite2.image.fill(pygame.Color("orange"))
+
+    if sprite2.rect.right >= screen_width:
+        sprite2.rect.right = screen_width 
+        sprite2.image.fill(pygame.Color("lightblue"))
+
+    if sprite2.rect.top <= 0:
+        sprite2.rect.top = 0  
+        sprite2.image.fill(pygame.Color("yellow"))
+
+    if sprite2.rect.bottom >= screen_height:
+        sprite2.rect.bottom = screen_height 
+        sprite2.image.fill(pygame.Color("pink"))
+
     pygame.display.flip()
     clock.tick(90)
 pygame.quit()          

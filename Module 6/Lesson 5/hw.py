@@ -40,22 +40,24 @@ screen=pygame.display.set_mode((screen_width,screen_height))
 clock=pygame.time.Clock()
 all_sprites=pygame.sprite.Group()
 
-sprite1=sprite(pygame.Color("red"),50,50)
-sprite1.rect.x, sprite1.rect.y=random.randint(0, screen_width),random.randint(0,screen_height)
+player=sprite(pygame.Color("blue"),80,80)
+player.rect.x, player.rect.y=random.randint(0, screen_width),random.randint(0,screen_height)
+
+
+for i in range(7):
+    enemy = sprite(pygame.Color("red"), 60, 60)
+    enemy.rect.x = random.randint(0, screen_width)
+    enemy.rect.y = random.randint(0, screen_height)
+    all_sprites.add(enemy)
 
 sprite2=sprite(pygame.Color("blue"),50,50)
 sprite2.rect.x, sprite2.rect.y=random.randint(0, screen_width),random.randint(0,screen_height)
-
-all_sprites.add(sprite1)
-all_sprites.add(sprite2)
 
 running=True
 while running:
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             running=False
-    
-
 
     sprite1.update()
     sprite2.update()

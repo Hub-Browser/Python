@@ -16,20 +16,10 @@ class sprite(pygame.sprite.Sprite):
     def update(self):
         self.rect.move_ip(self.velocity)
 
-        if self.rect.left <= 0:
-            self.rect.left = 0
+        if self.rect.left <= 0 or self.rect.right >= screen_width:
             self.velocity[0] = -self.velocity[0] 
 
-        if self.rect.right >= screen_width:
-            self.rect.right = screen_width
-            self.velocity[0] = -self.velocity[0]
-
-        if self.rect.top <= 0:
-            self.rect.top = 0
-            self.velocity[1] = -self.velocity[1] 
-
-        if self.rect.bottom >= screen_height:
-            self.rect.bottom = screen_height
+        if self.rect.top <= 0 or self.rect.bottom >= screen_height:
             self.velocity[1] = -self.velocity[1]
     
     def move(self,x_change,y_change):

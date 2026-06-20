@@ -3,7 +3,7 @@ import random
 pygame.init()
 
 screen_width, screen_height=800,600
-movement_speed=5
+x_change, y_change=0,0
 
 class sprite(pygame.sprite.Sprite):
     def __init__(self, color, width, height) -> None:
@@ -22,23 +22,20 @@ class sprite(pygame.sprite.Sprite):
             self.velocity[0] = -self.velocity[0] 
             boundary_hit = True
 
-        elif self.rect.right >= screen_width:
+        if self.rect.right >= screen_width:
             self.rect.right = screen_width
             self.velocity[0] = -self.velocity[0]
             boundary_hit = True
 
-        elif self.rect.top <= 0:
+        if self.rect.top <= 0:
             self.rect.top = 0
             self.velocity[1] = -self.velocity[1] 
             boundary_hit = True
 
-        elif self.rect.bottom >= screen_height:
+        if self.rect.bottom >= screen_height:
             self.rect.bottom = screen_height
             self.velocity[1] = -self.velocity[1]
             boundary_hit = True
-
-        #if boundary_hit:
-        #    pygame.event.post(pygame.event.Event(pygame.USEREVENT+1))
     
     def move(self,x_change,y_change):
         self.rect.x=max(min(self.rect.x+x_change, screen_width-self.rect.width),0)
@@ -61,12 +58,23 @@ running=True
 while running:
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
-            pygame.quit()
-    sprite2.update()
-    keys=pygame.key.get_pressed()
-    x_change=(keys[pygame.K_RIGHT] - keys[pygame.K_LEFT])*movement_speed
-    y_change=(keys[pygame.K_DOWN] - keys[pygame.K_UP])*movement_speed
+            running=False
+    
+        if event.type == pygame.KEYDOWN:
 
+            if event.key == pygame.K_LEFT:
+                x_change = -5
+            if event.key == pygame.K_RIGHT:
+                x_change = 5
+            if event.key == pygame.K_UP:
+                y_change = -5
+            if event.key == pygame.K_DOWN:
+                y_change = 5
+    
+        if event.type==pygame.KEYUP:
+            x_change, y_change=0,0
+
+    sprite2.update()
     screen.fill(pygame.Color("white"))
     sprite1.move(x_change,y_change)
     all_sprites.draw(screen)

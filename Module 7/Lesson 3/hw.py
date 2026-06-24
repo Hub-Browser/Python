@@ -9,6 +9,7 @@ entry=Entry()
 textbox=Text(fg="black")
 
 def convert():
+    textbox.delete("1.0", END)
     length=entry.get()
     try:
         length=float(length)

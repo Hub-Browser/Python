@@ -13,9 +13,9 @@ def convert():
     try:
         length=float(length)
         cm=length*2.54
+        textbox.insert(END,f"{cm} cm")
     except:
         textbox.insert(END,"Invalid input")
-    textbox.insert(END,f"{cm} cm")
 
 button=Button(text="Convert",command=convert)
 

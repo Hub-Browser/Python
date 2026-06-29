@@ -32,6 +32,7 @@ class RestaurantOrderManagement:
 
             quantity_entry=ttk.Entry(frame,width=5)
             quantity_entry.grid(row=i,column=1,padx=10,pady=5)
+            self.menu_quantities[item]=quantity_entry
 
         self.currency_var=tk.StringVar()
         dropdown_row=len(self.menu_items)+1
@@ -62,5 +63,50 @@ class RestaurantOrderManagement:
             canvas_image=background_image
         except tk.TclError:
             canvas.configure(bg="#ffffff")
+    def update_menu_prices(self, *args):
+        currency = self.currency_var.get()
+        symbol = "₹" if currency == "INR" else "$"
+        rate = self.exchange_rate if currency == "INR" else 1
+        
+        for item, label in self.menu_labels.items():
+            price = self.menu_items[item] * rate
+            label.config(text=f"{item} ({symbol}{price:,.2f}):")
+
+    def place_order(self):
+        total_cost = 0
+        order_summary = "Order Summary:\n\n"
+        currency = self.currency_var.get()
+        symbol = "₹" if currency == "INR" else "$"
+        rate = self.exchange_rate if currency == "INR" else 1
+        
+        for item, entry in self.menu_quantities.items():
+            quantity = entry.get().strip()
+            
+            if not quantity:
+                continue
+                
+            if quantity.isdigit():
+                quantity = int(quantity)
+                if quantity > 0:
+                    price = self.menu_items[item] * rate
+                    cost = quantity * price
+                    total_cost += cost
+                    order_summary += f"{item}: {quantity} x {symbol}{price:,.2f} = {symbol}{cost:,.2f}\n"
+            else:
+                messagebox.showerror("Error", f"Please enter a valid positive number for {item}.")
+                return
+
+        if total_cost > 0:
+            order_summary += f"\nTotal Cost: {symbol}{total_cost:,.2f}"
+            messagebox.showinfo("Order Placed", order_summary)
+        else:
+            messagebox.showerror("Error", "Please order at least one item.")
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.geometry("800x600")
+    root.resizable(False, False) # Restrict sizing to match canvas dimensions
+    app = RestaurantOrderManagement(root)
+    root.mainloop()
 
         
